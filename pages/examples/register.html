@@ -12,10 +12,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="../../plugins/iCheck/square/blue.css">
+
+  <link rel="stylesheet" href="../../dist/css/site.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -26,55 +30,117 @@
 </head>
 <body class="hold-transition register-page">
 <div class="register-box">
-  <div class="register-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
-  </div>
 
   <div class="register-box-body">
-    <p class="login-box-msg">Register a new membership</p>
-
-    <form action="../../index.html" method="post">
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Full name">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Retype password">
-        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <input type="checkbox"> I agree to the <a href="#">terms</a>
-            </label>
-          </div>
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    </form>
-
-    <div class="social-auth-links text-center">
-      <p>- OR -</p>
-      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using
-        Facebook</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using
-        Google+</a>
+    <div class="register-logo">
+      <a href="../../index2.html"><img src="../../dist/img/logo-com-texto-branco.png"></a>
     </div>
+    <p class="login-box-msg">Quem é você?</p>
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#aluno" data-toggle="tab">Aluno</a></li>
+        <li><a href="#funcionario" data-toggle="tab">Funcionário</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="aluno">
+          <form action="../../index.html" method="post">
+            <div class="form-group">
+              <input type="text" class="form-control input-login" placeholder="Nome">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control input-login" placeholder="Sobrenome">
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control input-login" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-login" placeholder="Senha">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-login" placeholder="Confirma senha">
+            </div>
+            <div class="form-group">
+              <select class="form-control input-login select2" data-tags="true" data-placeholder="Qual é o seu curso?" data-allow-clear="true">
+                <option></option>
+                <option>Sistema para internet</option>
+                <option>Banco de dados</option>
+                <option>Analise e desenvolvimento de sistemas</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select class="form-control input-login select2" data-tags="true" data-placeholder="Em que semestre você estuda?" data-allow-clear="true">
+                <option></option>
+                <option>1º Semestre</option>
+                <option>2º Semestre</option>
+                <option>3º Semestre</option>
+                <option>4º Semestre</option>
+                <option>5º Semestre</option>
+              </select>
+            </div>
+            <div class="form-group has-feedback">
+              <select class="form-control input-login select2" data-tags="true" data-placeholder="Em que horário você estuda?" data-allow-clear="true">
+                <option></option>
+                <option>Manhã</option>
+                <option>Tarde</option>
+                <option>Noite</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block btn-flat">Cadastrar <i class="fa fa-fw fa-save"></i></button>
+            </div>
+            <hr>
+            <p class="text-center">Já possui um conta? <a href="login.html">Faça login</a></p>
+          </form> 
+        </div>
 
-    <a href="login.html" class="text-center">I already have a membership</a>
+        <div class="tab-pane" id="funcionario">
+          <form action="../../index.html" method="post">
+            <div class="form-group">
+              <input type="text" class="form-control input-login" placeholder="Nome">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control input-login" placeholder="Sobrenome">
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control input-login" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-login" placeholder="Senha">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-login" placeholder="Confirma senha">
+            </div>
+            <div class="form-group">
+              <select class="form-control input-login select2" data-tags="true" data-placeholder="Qual é o seu cargo?" data-allow-clear="true" style="width: 100%;">
+                <option></option>
+                <option>Professor</option>
+                <option>Coordenador</option>
+                <option>Segurança</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <p>Quem que período vocês está no Senac?</p>
+              <div class="form-group">
+                <span>
+                  <input type="checkbox" class="minimal"> Manhã 
+                </span>
+                <span>
+                  <input type="checkbox" class="minimal"> Tarde 
+                </span>
+                <span>
+                  <input type="checkbox" class="minimal"> Noite 
+                </span>
+              </div>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block btn-flat">Cadastrar</button>
+            </div>
+            <hr>
+            <p class="text-center">Já possui um conta? <a href="login.html">Faça login</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- /.form-box -->
 </div>
@@ -84,10 +150,14 @@
 <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="../../bootstrap/js/bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="../../plugins/select2/select2.full.min.js"></script>
 <!-- iCheck -->
 <script src="../../plugins/iCheck/icheck.min.js"></script>
 <script>
   $(function () {
+    $(".select2").select2();
+
     $('input').iCheck({
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'iradio_square-blue',

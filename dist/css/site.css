@@ -1,0 +1,132 @@
+.login-logo img, .register-logo img{
+	max-width: 150px;
+}
+.login-page, .register-page{
+	background-color: #212121;
+}
+.login-box-body, .register-box-body{
+	background-color: #212121;
+}
+.input-login{
+	background-color: #424242;
+	border: none;
+	color: #ffffff;
+}
+.register-box{
+	max-width: 500px;
+}
+.box-dark{
+	background-color: #212121;
+}
+.box-header{
+	color: #ffffff;
+}
+.box-dark .box-body{
+	color: #999999;
+}
+.box-body .form-control{
+	background-color: #424242;
+	border: none;
+	color: #ffffff;
+}
+.form-img-perfil{
+	max-width: 120px;
+	text-align: center;
+}
+.home-intro{
+	padding-top: 150px;
+	text-align: center;
+	padding-bottom: 70px;
+}
+.home-intro p{
+	max-width: 250px;
+	margin: auto;
+	color: #cccccc;
+	font-size: 1em;
+	font-weight: 100;
+	line-height: 30px;
+	padding-top: 50px;
+}
+.body-home{
+	background: #212121;
+}
+.bg-default{
+	background: #FF5722;
+	color: #ffffff;
+}
+.widget-aviliacao{
+	max-width: 750px;
+	margin: auto;
+	margin-bottom: 30px;
+}
+.widget-perfil-restaurante .widget-user-header{
+	height: 330px;
+	text-align: center;
+}
+.widget-perfil-restaurante .widget-user-header h2{
+	padding-top: 160px;
+}
+.widget-perfil-restaurante .widget-user-image{
+	top: 275px;
+}
+.menu-home{
+	text-align: center;
+	margin-top: 10px;
+}
+.menu-home a{
+	margin-bottom: 5px;
+}
+.busca-home{
+	max-width: 600px;
+	margin: auto;
+}
+.home h2{
+	color: #ffffff;
+	text-align: center;
+	padding-top: 75px;
+}
+.logo-painel{
+	max-width: 120px;
+}
+.home p{
+	text-align: center;
+	color: #ffffff;
+	padding-bottom: 20px;
+}
+.header-default{
+	background-color: #ffffff;
+}
+.navbar-form{
+	position: relative;
+    display: block;
+    padding: 8px 15px;
+}
+.conteudo-intro{
+	color: #ffffff;
+}
+.box-comments{
+	background-color: #424242!important;
+}
+.box-footer{
+	border-top: none;
+}
+.box-comments .comment-text{
+	color: #999999;
+}
+.box-comments .username{
+	color: #cccccc;
+}
+.box-footer{
+	background-color: #212121;
+}
+.box-footer{
+	border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top: none;
+}
+.navbar{
+	background-color: #ffffff;
+}
+.preco{
+	color: #FF5722;
+}
