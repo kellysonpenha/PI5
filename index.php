@@ -1,7 +1,11 @@
 <?php
-define("ROW_PER_PAGE",2);
-require_once('db.php');
+define("ROW_PER_PAGE",4);
+require_once('class/Connection.class.php');
 ?>
+
+
+
+
 
 
 <html>
@@ -26,6 +30,7 @@ require_once('db.php');
 </head>
 <body class="body-home">
 <?php	
+	$pdo_conn = new Connection();
 	$search_keyword = '';
 	if(!empty($_POST['search']['keyword'])) {
 		$search_keyword = $_POST['search']['keyword'];
@@ -71,40 +76,7 @@ require_once('db.php');
 ?>
 
 
-<form name='frmSearch' action='' method='post' class="busca-home">
-	<div class="form-group">
-          <div class="input-group">
-		  
-			<div style='text-align:right;margin:20px 0px;'><input type='text' class="input-login"name='search[keyword]' value="<?php echo $search_keyword; ?>" id='keyword' maxlength='25'></div>		  
-		  </div>
-	</div>
 
-<table class='tbl-qa'>
-  <thead>
-	<tr>
-	  <th class='table-header' width='20%'>Title</th>
-	  <th class='table-header' width='40%'>Description</th>
-	  <th class='table-header' width='20%'>Date</th>
-	</tr>
-  </thead>
-  <tbody id='table-body'>
-	<?php
-	if(!empty($result)) { 
-		foreach($result as $row) {
-	?>
-	  <tr class='table-row'>
-		<td><?php echo $row['nome']; ?></td>
-		<td><?php echo $row['nota']; ?></td>
-		<td><?php echo $row['preco']; ?></td>
-	  </tr>
-    <?php
-		}
-	}
-	?>
-  </tbody>
-</table>
-<?php echo $per_page_html; ?>
-</form>
 <div class="wrapper">
   <header class="main-header">
     <div class="menu-home container">
@@ -113,35 +85,41 @@ require_once('db.php');
       <a href="pages/examples/login-restaurante.html" class="btn btn-primary btn-flat">Área do restaurante <i class="fa fa-cutlery"></i></a>
     </div>
   </header>
+  
   <section class="container home">
-    <div class="home-intro">
+  
+    <div class="home-intro">	
       <img src="dist/img/logo-com-texto-branco.png" style="max-width: 250px;">
-      <p>Que restaurante você quer conhecer?</p>
-      <form class="busca-home">
-        <div class="form-group">
-          <div class="input-group">
-            <select class="form-control input-login select2" data-tags="true" data-placeholder="Em que semestre você estuda?" data-allow-clear="true">
-              <option></option>
-              <option>Casa do pão de queijo</option>
-              <option>Rizzo</option>
-              <option>Menu.com</option>
-              <option>Nectare</option>
-              <option>Tasca</option>
-            </select>
-            <span class="input-group-btn">
-              <button class="btn btn-primary btn-flat" type="button">Buscar <i class="fa fa-search"></i></button>
-            </span>
-          </div>
-        </div>
-      </form>
+      <p>Que restaurante você quer conhecer?</p>              
     </div>
-    <hr>
+	
+          
+	<form name='frmSearch' action='' method='post'>					
+	
+		<div class="col-md-offset-4 col-md-4">
+			<input type='text'class="form-control" name='search[keyword]' value="<?php echo $search_keyword; ?>" id='keyword' maxlength='25' style="inline-block">
+		</div>
+		<div class="col-md-2">
+			<span>
+				<button class="btn btn-primary btn-flat" type="submit">Buscar <i class="fa fa-search"></i></button>
+			</span>
+		</div>
+	
+		
+
+
+	<br />
+    <hr>	
     <h2>Top 5 melhores restaurantes</h2>
     <p>Olá, veja abaixo o top 5 dos melhores restaurantes do centro universitário Senac</p>
 	
 	
 	
-	  <tbody id='table-body'>
+	
+
+ 
+  <tbody id='table-body'>
+  
 	<?php
 	if(!empty($result)) { 
 		foreach($result as $row) {
@@ -171,196 +149,16 @@ require_once('db.php');
         </div>
       </div>
     </div>
-	
-	
-	
-	
-	
-	
-	
-	
-	  <tr class='table-row'>
-		<td></td>
-		<td></td>
-		<td></td>
-	  </tr>
+	  
     <?php
 		}
 	}
 	?>
   </tbody>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-    <div class="box box-widget widget-user widget-aviliacao">
-      <div class="widget-user-header bg-default">
-        <h3 class="widget-user-username">1 - Casa do pão de queijo</h3>
-        <h5 class="widget-user-desc">Nota geral: 4,3 <i class="fa fa-star "></i></h5>
-      </div>
-      <div class="widget-user-image">
-        <img class="img-circle" src="dist/img/casa-do-pao-de-queijo.jpg" alt="User Avatar">
-      </div>
-      <div class="box-footer">
-        <div class="row">
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Preço</h5>
-              <span class="description-text">2,1 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Sabor</h5>
-              <span class="description-text">4,2 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="description-block">
-              <h5 class="description-header">Atendimento</h5>
-              <span class="description-text">4,6 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="box box-widget widget-user widget-aviliacao">
-      <div class="widget-user-header bg-default">
-        <h3 class="widget-user-username">2 - Rizzo</h3>
-        <h5 class="widget-user-desc">Nota geral: 4,2 <i class="fa fa-star "></i></h5>
-      </div>
-      <div class="widget-user-image">
-        <img class="img-circle" src="dist/img/rizzo.jpg" alt="User Avatar">
-      </div>
-      <div class="box-footer">
-        <div class="row">
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Preço</h5>
-              <span class="description-text">2,1 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Sabor</h5>
-              <span class="description-text">4,3 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="description-block">
-              <h5 class="description-header">Atendimento</h5>
-              <span class="description-text">4,6 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="box box-widget widget-user widget-aviliacao">
-      <div class="widget-user-header bg-default">
-        <h3 class="widget-user-username">3 - Tasca</h3>
-        <h5 class="widget-user-desc">Nota geral: 4,2 <i class="fa fa-star "></i></h5>
-      </div>
-      <div class="widget-user-image">
-        <img class="img-circle" src="dist/img/logo-tasca.jpg" alt="User Avatar">
-      </div>
-      <div class="box-footer">
-        <div class="row">
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Preço</h5>
-              <span class="description-text">2,1 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Sabor</h5>
-              <span class="description-text">4,2 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="description-block">
-              <h5 class="description-header">Atendimento</h5>
-              <span class="description-text">4,1 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="box box-widget widget-user widget-aviliacao">
-      <div class="widget-user-header bg-default">
-        <h3 class="widget-user-username">4 - Nectare</h3>
-        <h5 class="widget-user-desc">Nota geral: 4,1 <i class="fa fa-star "></i></h5>
-      </div>
-      <div class="widget-user-image">
-        <img class="img-circle" src="dist/img/logo-nectare.jpg" alt="User Avatar">
-      </div>
-      <div class="box-footer">
-        <div class="row">
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Preço</h5>
-              <span class="description-text">2,1 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Sabor</h5>
-              <span class="description-text">4,2 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="description-block">
-              <h5 class="description-header">Atendimento</h5>
-              <span class="description-text">4,6 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="box box-widget widget-user widget-aviliacao">
-      <div class="widget-user-header bg-default">
-        <h3 class="widget-user-username">5 - menu.com</h3>
-        <h5 class="widget-user-desc">Nota geral: 4,0 <i class="fa fa-star "></i></h5>
-      </div>
-      <div class="widget-user-image">
-        <img class="img-circle" src="dist/img/casa-do-pao-de-queijo.jpg" alt="User Avatar">
-      </div>
-      <div class="box-footer">
-        <div class="row">
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Preço</h5>
-              <span class="description-text">2,1 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4 border-right">
-            <div class="description-block">
-              <h5 class="description-header">Sabor</h5>
-              <span class="description-text">4,2 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="description-block">
-              <h5 class="description-header">Atendimento</h5>
-              <span class="description-text">4,6 <i class="fa fa-star-o"></i></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-      
+	 
   </section>
+    <?php echo $per_page_html; ?>
+	</form>
 
   
   <!-- /.content-wrapper -->
