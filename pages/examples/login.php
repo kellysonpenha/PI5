@@ -27,6 +27,9 @@
   <![endif]-->
 </head>
 <body class="hold-transition login-page">
+<?php
+require_once "sessao.php"
+?>
 <div class="login-box">
   
   <!-- /.login-logo -->
@@ -36,21 +39,23 @@
     </div>
     <p class="login-box-msg">Olá, seja bem vindo(a)</p>
 
-    <form action="../../index2.html" method="post">
+    <form method="POST">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control input-login" placeholder="Email">
+        <input type="email" id="login" class="form-control input-login" placeholder="Email">
         <span class="fa fa-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control input-login" placeholder="Senha">
+        <input type="password" id="senha" class="form-control input-login" placeholder="Senha">
         <span class="fa fa-lock form-control-feedback"></span>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-flat">Entrar <i class="fa fa-fw fa-sign-in"></i></button>
+        <button type="button" id="enviar" class="btn btn-primary btn-flat">Entrar <i class="fa fa-fw fa-sign-in"></i></button>
+		 <div id="erro" style="display:none">Login /e ou senha errado</div>
         <div class="pull-right">
           <p class="form-control-static"><a href="#">Esqueci minha senha</a></p>
         </div>
       </div>
+	 
       <hr>
       <div class="form-group text-center">
         <p>Ainda não está cadastrado?</p>
@@ -76,6 +81,35 @@
       increaseArea: '20%' // optional
     });
   });
+  
+  
+
+$(function () {
+$('input').iCheck({
+  checkboxClass: 'icheckbox_square-blue',
+  radioClass: 'iradio_square-blue',
+  increaseArea: '20%' // optional
+});
+}); 
+  
+var elemEnviar = document.getElementById("enviar");
+elemEnviar.onclick = function(){
+	var url="returnLogin.php";
+	var request = new XMLHttpRequest();	
+	request.onload = function(){	
+		if(this.status == 200){													
+				this.response == "false" ? document.getElementById("erro").style="block" : location = "sessao.php";			
+			}
+		}
+		
+	request.open("POST", url);
+	request.withCredentials = true;
+	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	request.send("login=" + document.getElementById("login").value + "&senha=" + document.getElementById("senha").value); 	
+}
+
+  
+  
 </script>
 </body>
 </html>
