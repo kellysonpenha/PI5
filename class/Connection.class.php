@@ -13,16 +13,7 @@
 		
 		public function __construct(){
 			return $this->conectionDB();			
-		}
-		
-		
-		
-		
-		//$conn = new PDO("sqlsrv:server = $this->host,1433; Database = $this->dbname", "$this->user", "$this->password");
-		
-		
-		
-		
+		}		
 		private function setLogin($l, $s){			
 			
 			//$conn = new PDO("sqlsrv:server = $this->host,1433; Database = $this->dbname", "$this->user", "$this->password");
