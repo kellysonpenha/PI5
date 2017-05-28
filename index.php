@@ -27,6 +27,7 @@ require_once('class/Connection.class.php');
   <link rel="stylesheet" href="dist/css/AdminLTE.css">
   <link rel="stylesheet" href="dist/css/skins/skin-site.css">
   <link rel="stylesheet" href="dist/css/site.css">
+	<style>.box-footer{background-color:#FFF;}</style>
 </head>
 <body class="body-home">
 <?php	
