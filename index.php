@@ -81,7 +81,7 @@ require_once('class/Connection.class.php');
   <header class="main-header">
     <div class="menu-home container">
       <a href="pages/examples/register.html" class="btn btn-primary btn-flat">Crie sua conta <i class="fa fa-user-plus"></i></a>
-      <a href="pages/examples/login.html" class="btn btn-primary btn-flat">Faça login <i class="fa fa-sign-in"></i></a>
+      <a href="pages/examples/login.php" class="btn btn-primary btn-flat">Faça login <i class="fa fa-sign-in"></i></a>
       <a href="pages/examples/login-restaurante.html" class="btn btn-primary btn-flat">Área do restaurante <i class="fa fa-cutlery"></i></a>
     </div>
   </header>
@@ -94,8 +94,7 @@ require_once('class/Connection.class.php');
     </div>
 	
           
-	<form name='frmSearch' action='' method='post'>					
-	
+	<form name='frmSearch' action='' method='post'>	
 		<div class="col-md-offset-4 col-md-4">
 			<input type='text'class="form-control" name='search[keyword]' value="<?php echo $search_keyword; ?>" id='keyword' maxlength='25' style="inline-block">
 		</div>
@@ -104,21 +103,12 @@ require_once('class/Connection.class.php');
 				<button class="btn btn-primary btn-flat" type="submit">Buscar <i class="fa fa-search"></i></button>
 			</span>
 		</div>
-	
-		
-
-
 	<br />
     <hr>	
     <h2>Top 5 melhores restaurantes</h2>
     <p>Olá, veja abaixo o top 5 dos melhores restaurantes do centro universitário Senac</p>
 	
-	
-	
-	
-
- 
-  <tbody id='table-body'>
+	<tbody id='table-body'>
   
 	<?php
 	if(!empty($result)) { 
