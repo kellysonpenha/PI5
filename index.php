@@ -24,9 +24,13 @@ require_once('class/Connection.class.php');
   <!-- Select2 -->
   <link rel="stylesheet" href="plugins/select2/select2.min.css">
   <!-- Theme style -->
+  <!-- Rate Yo -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
   <link rel="stylesheet" href="dist/css/AdminLTE.css">
   <link rel="stylesheet" href="dist/css/skins/skin-site.css">
   <link rel="stylesheet" href="dist/css/site.css">
+  <!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 	<style>.box-footer{background-color:#FFF;}</style>
 </head>
 <body class="body-home">
@@ -36,7 +40,8 @@ require_once('class/Connection.class.php');
 	if(!empty($_POST['search']['keyword'])) {
 		$search_keyword = $_POST['search']['keyword'];
 	}	
-	//$sql = 'SELECT * FROM estabecimento WHERE post_title LIKE :keyword OR description LIKE :keyword OR post_at LIKE :keyword ORDER BY id DESC ';
+	//$sql = 'SELECT * FROM estabecimento WHERE post_title LIKE :keyword OR description LIKE :keyword OR post_at LIKE :keyword ORDER BY id DESC ';	
+	
 	
 	$sql = 'SELECT * FROM estabecimento WHERE nome LIKE :keyword OR nome ORDER BY nome DESC ';
 	
@@ -110,15 +115,17 @@ require_once('class/Connection.class.php');
     <p>Olá, veja abaixo o top 5 dos melhores restaurantes do centro universitário Senac</p>
 	
 	<tbody id='table-body'>
-  
+	  <!-- Rate Yo -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 	<?php
-	if(!empty($result)) { 
+	if(!empty($result)) {	
 		foreach($result as $row) {
 	?>
 	<div class="box box-widget widget-user widget-aviliacao">
       <div class="widget-user-header bg-default">
-        <h3 class="widget-user-username"><?php echo $row['nome']; ?></h3>
-        <h5 class="widget-user-desc">Nota geral: 4,3 <i class="fa fa-star "></i></h5>
+        <h3 class="widget-user-username"><?php echo  "<a href='avaliar-restaurante.php?id={$row['id']}'>{$row['nome']}</a>";?></h3>
+        <h5 class="widget-user-desc" style="display: inline;">Nota geral:</h5>
+		<div class="geral" style="display: inline-block;"></div>
       </div>
       <div class="widget-user-image">
         <img class="img-circle" src="dist/img/casa-do-pao-de-queijo.jpg" alt="User Avatar">
@@ -128,18 +135,46 @@ require_once('class/Connection.class.php');
           <div class="col-sm-4 border-right">
             <div class="description-block">
               <h5 class="description-header">Preço</h5>
-              <span class="description-text"><?php echo $row['nota']; ?><i class="fa fa-star-o"></i></span>
+			  <div class="preco " style="margin: 0 auto;"></div>
             </div>
           </div>
           <div class="col-sm-4 border-right">
             <div class="description-block">
               <h5 class="description-header">Sabor</h5>
-              <span class="description-text"><?php echo $row['preco']; ?><i class="fa fa-star-o"></i></span>
+			  <div class="sabor " style="margin: 0 auto;"></div>
             </div>
-          </div>        
+          </div>
+			<div class="col-sm-4">
+            <div class="description-block">
+              <h5 class="description-header">Atendimento</h5>
+			  <div class="atendimento " style="margin: 0 auto;"></div>
+            </div>
+          </div>		  
         </div>
       </div>
     </div>
+	<script>
+		$(".atendimento").rateYo({
+			rating: <?php echo($row["sabor"]); ?>,
+			starWidth: "20px",
+			readOnly: true
+		});
+		$(".sabor").rateYo({
+			rating: <?php echo($row["sabor"]); ?>,
+			starWidth: "20px",
+			readOnly: true
+		});
+		$(".preco").rateYo({
+			rating: <?php echo($row["preco"]); ?>,
+			starWidth: "20px",
+			readOnly: true
+		});
+		$(".geral").rateYo({
+			rating: <?php echo($row["nota"]); ?>,
+			starWidth: "20px",
+			readOnly: true
+		});
+	</script>
 	  
     <?php
 		}
@@ -165,12 +200,12 @@ require_once('class/Connection.class.php');
 
 <!-- REQUIRED JS SCRIPTS -->
 
-<!-- jQuery 2.2.3 -->
-<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
 <!-- Bootstrap 3.3.6 -->
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <!-- Select2 -->
 <script src="plugins/select2/select2.full.min.js"></script>
+
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
 <script>
@@ -182,6 +217,18 @@ require_once('class/Connection.class.php');
       radioClass: 'iradio_square-blue',
       increaseArea: '20%' // optional
     });
+  });
+  
+  $(".preco").rateYo({
+	rating: <?php echo($row["nota"]); ?>,
+    starWidth: "20px",
+	readOnly: true
+  });
+  $(".geral").rateYo({
+	rating: <?php echo($row["nota"]); ?>,
+	ratedFill: "#FFFFFF",
+    starWidth: "12px",
+	readOnly: true
   });
 </script>
 

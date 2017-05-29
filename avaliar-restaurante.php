@@ -1,3 +1,9 @@
+<?php
+
+require_once('class/Connection.class.php');
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +32,7 @@
   <header class="main-header header-default">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="index.php" class="logo">
       <img src="dist/img/logo-extenso.png" class="logo-painel">
     </a>
 
@@ -94,21 +100,44 @@
       </div>
     </nav>
   </header>
+  
+  <?php	
+	$pdo_conn = new Connection();	
+	$idURL = $_GET['id'];
+	$pagination_statement = $pdo_conn->prepare('SELECT * FROM estabecimento where id = :id');	
+	$pagination_statement->bindParam(':id', $idURL, PDO::PARAM_INT);
+	$pagination_statement->execute();	
+?>
+  
+  <?php
+	if(!empty($pagination_statement)) { 
+		foreach($pagination_statement as $row) {
+			
+	?>
+  
+  
   <div class="box box-widget widget-user widget-perfil-restaurante">
     <div class="widget-user-header bg-default">
-      <h2 class="widget-user-username">Casa do pão de queijo</h2>
-      <h4 class="widget-user-desc">Nota geral: 4,3 <i class="fa fa-star "></i></h4>
+      <h2 class="widget-user-username"><?php print_r($row["nome"]); ?></h2>      
+      <div class="col-md-12"><div class="limpeza " style="margin: 0 auto;"></div></div>
+     
+	  
     </div>
     <div class="widget-user-image">
       <img class="img-circle" src="dist/img/casa-do-pao-de-queijo.jpg" alt="User Avatar">
     </div>
   </div>
+  
+	<?php
+			
+       
+		}
+	}
+	?>
     
   <section class="container">
     <div class="conteudo-intro">
-      <h3>Destalhes</h3>
-    
-      <p>Praça 1 | Foda-se</p>
+      <h3>Destalhes</h3>      
       <p><button class="btn btn-default btn-flat btn-lg" data-toggle="modal" data-target="#cardapio">Cardápio</button></a></p>
       
       <hr>
@@ -117,23 +146,23 @@
       <div class="clearfix"></div>
       <div class="item">
         <div class="col-md-4"><p>Limpeza</p></div>
-        <div class="col-md-8"><div class="rateYo"></div></div>
+        <div class="col-md-8"><div id="limpeza" class="limpeza"></div></div>
       </div>
       <div class="item">
         <div class="col-md-4"><p>Tempo de espera</p></div>
-        <div class="col-md-8"><div class="rateYo"></div></div>
+        <div class="col-md-8"><div id="tempodeespera" class="tempodeespera"></div></div>
       </div>
       <div class="item">
         <div class="col-md-4"><p>Valor</p></div>
-        <div class="col-md-8"><div class="rateYo"></div></div>
+        <div class="col-md-8"><div id="valor" class="valor"></div></div>
       </div>
       <div class="item">
         <div class="col-md-4"><p>Sabor</p></div>
-        <div class="col-md-8"><div class="rateYo"></div></div>
+        <div class="col-md-8"><div id="sabor" class="sabor"></div></div>
       </div>
       <div class="item">
         <div class="col-md-4"><p>Qualidade do atendimento</p></div>
-        <div class="col-md-8"><div class="rateYo"></div></div>
+        <div class="col-md-8"><div id="qualidadeatendimento" class="qualidadeatendimento"></div></div>
       </div>
       <div class="clearfix"></div>
       <hr>
@@ -240,6 +269,15 @@
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
+
+
+
+
+
+
+
+  </tbody>
+
 <!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->
@@ -255,15 +293,72 @@
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
 <script>
+var x;
+$(function () { 
+$("#limpeza, #tempodeespera, #valor, #sabor, #qualidadeatendimento").rateYo().on("rateyo.set", function (e, data) {
+    if(this.id == "limpeza"){
+		console.log("sou zica pq é limpeza");
+	}else if(this.id == "tempodeespera"){
+		console.log("sou zica pq é tempo de espera");
+	}else if(this.id == "valor"){
+		console.log("sou zica pq é valor");
+	}else if(this.id == "sabor"){
+		console.log("sou zica pq é sabor");
+	}else if(this.id == "qualidadeatendimento"){
+		console.log("sou zica pq é qualidadeatendimento");
+	}
+	});
+});
+
+
+(function(){
+        $.post("demo_test_post.asp",
+        {
+          name: "Donald Duck",
+          city: "Duckburg"
+        },
+        function(data,status){
+			alert("Data: " + data + "\nStatus: " + status);
+});
+
+
   $(function () {
     $(".select2").select2();
   });
+  
+  
+  
 
   $(function () {
  
-    $(".rateYo").rateYo({
-      rating: 3.6,
-      starWidth: "40px"
+    $("#limpeza").rateYo({
+      rating: <?php print_r($row["nota"]); ?>,
+      starWidth: "40px",
+	  fullStar: true
+    });
+	
+	 $("#tempodeespera").rateYo({
+      rating: 5,
+      starWidth: "40px",
+	  fullStar: true
+    });
+	
+	 $("#valor").rateYo({
+      rating: 5,
+      starWidth: "40px",
+	  fullStar: true
+    });
+	
+	 $("#sabor").rateYo({
+      rating: 5,
+      starWidth: "40px",
+	 fullStar: true
+    });
+	
+	 $("#qualidadeatendimento").rateYo({
+      rating: 2,
+      starWidth: "40px",
+	  fullStar: true
     });
    
   });

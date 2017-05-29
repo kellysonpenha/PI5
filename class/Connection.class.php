@@ -7,7 +7,7 @@
 		private $dbname="test";			
 		
 		private function conectionDB(){
-			$conn = parent::__construct("mysql:host=$this->host;dbname=$this->dbname","$this->user", "$this->password");
+			$conn = parent::__construct("mysql:host=$this->host;dbname=$this->dbname","$this->user", "$this->password", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
 			return $conn;			
 		}
 		
