@@ -297,29 +297,40 @@ var x;
 $(function () { 
 $("#limpeza, #tempodeespera, #valor, #sabor, #qualidadeatendimento").rateYo().on("rateyo.set", function (e, data) {
     if(this.id == "limpeza"){
-		console.log("sou zica pq é limpeza");
+		console.log("sou zica pq é limpeza");		
+		enviarRaiting(data, "limpeza");
+		
 	}else if(this.id == "tempodeespera"){
 		console.log("sou zica pq é tempo de espera");
+		enviarRaiting(data, "tempo de espera");
 	}else if(this.id == "valor"){
 		console.log("sou zica pq é valor");
+		enviarRaiting(data, "valor");
 	}else if(this.id == "sabor"){
 		console.log("sou zica pq é sabor");
+		enviarRaiting(data, "sabor");
 	}else if(this.id == "qualidadeatendimento"){
 		console.log("sou zica pq é qualidadeatendimento");
+		enviarRaiting(data, "qualidade de atendimento");
 	}
 	});
 });
 
 
-(function(){
-        $.post("demo_test_post.asp",
-        {
-          name: "Donald Duck",
-          city: "Duckburg"
-        },
-        function(data,status){
-			alert("Data: " + data + "\nStatus: " + status);
-});
+function enviarRaiting(estrela, tipo){
+	var url="returnLogin.php";
+	var request = new XMLHttpRequest();	
+	request.onload = function(){	
+		if(this.status == 200){													
+				this.response == "false" ? document.getElementById("erro").style="block" : location = "sessao.php";			
+			}
+		}
+		
+		request.open("POST", url);
+		request.withCredentials = true;
+		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		request.send("id=" + <?php echo $idURL ?> + "&tipo=" + tipo + "&raiting=" + estrela.rating); 	
+}
 
 
   $(function () {
