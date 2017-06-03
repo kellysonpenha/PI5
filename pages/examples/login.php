@@ -35,17 +35,17 @@ require_once "sessao.php"
   <!-- /.login-logo -->
   <div class="login-box-body">
     <div class="login-logo">
-      <a href="../../index2.html"><img src="../../dist/img/logo-com-texto-branco.png"></a>
+      <a href="../../index.php"><img src="../../dist/img/logo-com-texto-branco.png"></a>
     </div>
     <p class="login-box-msg">Olá, seja bem vindo(a)</p>
 
     <form method="POST">
       <div class="form-group has-feedback">
-        <input type="email" id="login" class="form-control input-login" placeholder="Email">
+        <input type="email" id="login" class="form-control input-login" placeholder="Email" required="">
         <span class="fa fa-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" id="senha" class="form-control input-login" placeholder="Senha">
+        <input type="password" id="senha" class="form-control input-login" placeholder="Senha" required="">
         <span class="fa fa-lock form-control-feedback"></span>
       </div>
       <div class="form-group">
@@ -59,7 +59,7 @@ require_once "sessao.php"
       <hr>
       <div class="form-group text-center">
         <p>Ainda não está cadastrado?</p>
-        <a href="register.html" class="btn btn-default btn-block btn-flat">Cadastre-se</a>
+        <a href="register.php" class="btn btn-default btn-block btn-flat">Cadastre-se</a>
       </div>
     </form>
   </div>
@@ -98,7 +98,7 @@ elemEnviar.onclick = function(){
 	var request = new XMLHttpRequest();	
 	request.onload = function(){	
 		if(this.status == 200){													
-				this.response == "false" ? document.getElementById("erro").style="block" : location = "sessao.php";			
+				this.response == "false" ? document.getElementById("erro").style="block" : $("form").prepend("<div class=\"alert alert-danger alert-dismissible\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button><h4><i class=\"icon fa fa-warning\"></i> Atenção!</h4> Usuário ou senha inválidos.</div>");			
 			}
 		}
 		

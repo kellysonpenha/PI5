@@ -33,36 +33,36 @@
 
   <div class="register-box-body">
     <div class="register-logo">
-      <a href="../../index2.html"><img src="../../dist/img/logo-com-texto-branco.png"></a>
+      <a href="../../index.php"><img src="../../dist/img/logo-com-texto-branco.png"></a>
     </div>
     <p class="login-box-msg">Cadastro de restaurante</p>
 
-    <form action="../../index.html" method="post">
+    <form action="" method="post">
       <div class="form-group">
-        <input type="text" class="form-control input-login" placeholder="Nome do restaurante">
+        <input type="text" class="form-control input-login" placeholder="Nome do restaurante" name="nome">
       </div>
       <div class="form-group">
-        <input type="email" class="form-control input-login" placeholder="Email para contato">
+        <input type="email" class="form-control input-login" placeholder="Email para contato" name="email">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control input-login" placeholder="Senha">
+        <input type="password" class="form-control input-login" placeholder="Senha" name="senha">
       </div>
       <div class="form-group">
         <input type="password" class="form-control input-login" placeholder="Confirma senha">
       </div>
       <div class="form-group">
-        <select class="form-control input-login select2" data-tags="true" data-placeholder="Em que praça você está?" data-allow-clear="true">
+        <select class="form-control input-login select2" data-tags="true" data-placeholder="Em que praça você está?" data-allow-clear="true" name="endereco">
           <option></option>
-          <option>Praça 1</option>
-          <option>Praça 2</option>
-          <option>Praça 3</option>
+          <option value="P1">Praça 1</option>
+          <option value="P2">Praça 2</option>
+          <option value="P2">Praça 3</option>
         </select>
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary btn-block btn-flat">Cadastrar <i class="fa fa-fw fa-save"></i></button>
       </div>
       <hr>
-      <p class="text-center">Já possui um conta? <a href="login-restaurante.html">Faça login</a></p>
+      <p class="text-center">Já possui um conta? <a href="login-restaurante.php">Faça login</a></p>
     </form>
   </div>
   <!-- /.form-box -->
@@ -88,5 +88,35 @@
     });
   });
 </script>
+
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+  try {   
+    require_once "../../db.php";
+    $nome = $_POST["nome"];
+    $email = $_POST["email"];
+    $senha = $_POST["senha"];
+    $endereco = $_POST["endereco"];
+
+    $pdo_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+    $pdo_conn = $pdo_conn->prepare("INSERT INTO UsuarioRestaurante (email, nome, senha, status) VALUES (:email, :nome, :senha, 1)");
+    $pdo_conn->bindParam(':email', $email, PDO::PARAM_STR);
+    $pdo_conn->bindParam(':nome', $nome, PDO::PARAM_STR);
+    $pdo_conn->bindParam(':senha', $senha, PDO::PARAM_STR);
+    //$pdo_conn->bindParam(':endereco', $endereco, PDO::PARAM_STR);
+    $pdo_conn->execute();
+               
+    echo '<script>$("form").prepend("<div class=\"alert alert-success alert-dismissible\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button><h4><i class=\"icon fa fa-check\"></i> Parabéns!</h4> Usuário cadastrado com sucesso!</div>");</script>';
+  } 
+  catch(PDOException $e)
+  {
+    echo "Ocorreu um erro:" . $e->getMessage();
+  }  
+
+}
+
+?>
 </body>
 </html>

@@ -32,11 +32,11 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <div class="login-logo">
-      <a href="../../index2.html"><img src="../../dist/img/logo-com-texto-branco.png"></a>
+      <a href="../../index.php"><img src="../../dist/img/logo-com-texto-branco.png"></a>
     </div>
     <p class="login-box-msg">Olá, seja bem vindo(a) a área do restaurante</p>
 
-    <form action="../../index2.html" method="post">
+    <form action="../../index.php" method="post">
       <div class="form-group has-feedback">
         <input type="email" class="form-control input-login" placeholder="Email">
         <span class="fa fa-envelope form-control-feedback"></span>
@@ -54,7 +54,7 @@
       <hr>
       <div class="form-group text-center">
         <p>Ainda não está cadastrado?</p>
-        <a href="register-restaurante.html" class="btn btn-default btn-block btn-flat">Cadastre-se</a>
+        <a href="register-restaurante.php" class="btn btn-default btn-block btn-flat">Cadastre-se</a>
       </div>
     </form>
   </div>
