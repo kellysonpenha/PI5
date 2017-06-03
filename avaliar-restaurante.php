@@ -318,11 +318,11 @@ $("#limpeza, #tempodeespera, #valor, #sabor, #qualidadeatendimento").rateYo().on
 
 
 function enviarRaiting(estrela, tipo){
-	var url="returnLogin.php";
+	var url="class/avaliacao.php";
 	var request = new XMLHttpRequest();	
 	request.onload = function(){	
 		if(this.status == 200){													
-				this.response == "false" ? document.getElementById("erro").style="block" : location = "sessao.php";			
+				console.log(this.response + "fsd");
 			}
 		}
 		
