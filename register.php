@@ -128,9 +128,9 @@
             <div class="form-group has-feedback">
               <select class="form-control input-login select2" data-tags="true" data-placeholder="Em que horário você estuda?" data-allow-clear="true" name="periodo">
                 <option></option>
-                <option value="M">Manhã</option>
-                <option value="T">Tarde</option>
-                <option value="N">Noite</option>
+                <option value="Manhã">Manhã</option>
+                <option value="Tarde">Tarde</option>
+                <option value="Noite">Noite</option>
               </select>
             </div>
             <div class="form-group">
@@ -220,64 +220,69 @@
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  require_once "db.php";
 
   if (isset($_POST['cadastrar_aluno'])) {
-    try {   
-      require_once "db.php";
+    try {
       $email = $_POST["email"];
-      $senha = $_POST["senha"];
+      $senha = password_hash($_POST["senha"], PASSWORD_BCRYPT);
       $nome = $_POST["nome"];
       $sobrenome = $_POST["sobrenome"];
       $curso = $_POST["curso"];
       $semestre = $_POST["semestre"];
       $periodo = $_POST["periodo"];
 
-      $pdo_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-      $pdo_conn = $pdo_conn->prepare("INSERT INTO UsuarioAluno (nome, sobrenome, email, senha, curso, semestre, periodo, status) VALUES (:nome, :sobrenome, :email, :senha, :curso, :semestre, :periodo, 1);");
-      $pdo_conn->bindParam(':nome', $nome, PDO::PARAM_STR);
-      $pdo_conn->bindParam(':sobrenome', $sobrenome, PDO::PARAM_STR);
-      $pdo_conn->bindParam(':email', $email, PDO::PARAM_STR);
-      $pdo_conn->bindParam(':senha', $senha, PDO::PARAM_STR);
-      $pdo_conn->bindParam(':curso', $curso, PDO::PARAM_STR);
-      $pdo_conn->bindParam(':semestre', $semestre, PDO::PARAM_STR);
-      $pdo_conn->bindParam(':periodo', $periodo, PDO::PARAM_STR);
-      $pdo_conn->execute();
+      $pdo_conn->beginTransaction();
+        $stmt = $pdo_conn->prepare("INSERT INTO LoginUsuario (email, senha, TipoUsuario_id) VALUES (:email, md5(:senha), 1)");
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
+        $stmt->execute();
 
-      //$linha = $pdo_conn->fetch(PDO::FETCH_ASSOC);
+        $stmt = $pdo_conn->prepare("INSERT INTO UsuarioAluno (nome, sobrenome, curso, semestre, periodo, status, Login_id) VALUES (:nome, :sobrenome, :curso, :semestre, :periodo, 1, LAST_INSERT_ID())");
+        $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
+        $stmt->bindParam(':sobrenome', $sobrenome, PDO::PARAM_STR);
+        $stmt->bindParam(':curso', $curso, PDO::PARAM_STR);
+        $stmt->bindParam(':semestre', $semestre, PDO::PARAM_STR);
+        $stmt->bindParam(':periodo', $periodo, PDO::PARAM_STR);
+        $stmt->execute();
+      $pdo_conn->commit();
                
-      echo '<script>$("#aluno").prepend("<div class=\"alert alert-success alert-dismissible\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button><h4><i class=\"icon fa fa-check\"></i> Parabéns!</h4> Usuário cadastrado com sucesso! | <a href="login.php">Faça login</a></div>");</script>';
+      echo '<script>$("#aluno").prepend("<div class=\"alert alert-success alert-dismissible\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button><h4><i class=\"icon fa fa-check\"></i> Parabéns!</h4> Usuário cadastrado com sucesso! | <a href=\"login.php\">Faça login</a></div>");</script>';
     } 
     catch(PDOException $e)
     {
       echo "Ocorreu um erro:" . $e->getMessage();
+      $erro = $e->getCode();
+
+      if ($erro == 23000) {
+        echo "<script>
+          <script>$(\"#aluno\").prepend(\"<div class='alert alert-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><h4><i class='icon fa fa-ban'></i> Erro!</h4>O e-mail informado já está em uso, por favor utilize ou endereço de e-mail para continuar seu cadastro.</div>\");
+        </script>";
+      }
     }
   }
   
 
   if (isset($_POST['cadastrar_funcionario'])) {
-    try {   
-      require_once "db.php";
+    try {
       $nome = $_POST["nome"];
       $sobrenome = $_POST["sobrenome"];
       $email = $_POST["email"];
-      $senha = $_POST["senha"];
+      $senha = password_hash($_POST["senha"], PASSWORD_BCRYPT);
       $cargo = $_POST["cargo"];
 
-      
-      
       $pdo_conn->beginTransaction();
-        //$pdo_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo_conn = $pdo_conn->prepare("INSERT INTO LoginUsuario (email, senha, TipoUsuario_id) VALUES (:email, :senha, 2)");
-        $pdo_conn->bindParam(':email', $email, PDO::PARAM_STR);
-        $pdo_conn->bindParam(':senha', $senha, PDO::PARAM_STR);
-        $pdo_conn->execute();
+        //
+        $stmt = $pdo_conn->prepare("INSERT INTO LoginUsuario (email, senha, TipoUsuario_id) VALUES (:email, md5(:senha), 2)");
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
+        $stmt->execute();
 
-        //$pdo_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo_conn->prepare("INSERT INTO LoginUsuario (nome, sobrenome, cargo, status, Login_id) VALUES (:nome, :sobrenome, :cargo, 1, LAST_INSERT_ID())");
-        $pdo_conn->bindParam(':nome', $nome, PDO::PARAM_STR);
-        $pdo_conn->bindParam(':sobrenome', $sobrenome, PDO::PARAM_STR);
-        $pdo_conn->bindParam(':cargo', $cargo, PDO::PARAM_STR);
-        $pdo_conn->execute();
+        $stmt = $pdo_conn->prepare("INSERT INTO UsuarioFuncionario (nome, sobrenome, cargo, status, Login_id) VALUES (:nome, :sobrenome, :cargo, 1, LAST_INSERT_ID())");
+        $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
+        $stmt->bindParam(':sobrenome', $sobrenome, PDO::PARAM_STR);
+        $stmt->bindParam(':cargo', $cargo, PDO::PARAM_STR);
+        $stmt->execute();
 
       $pdo_conn->commit();
                
