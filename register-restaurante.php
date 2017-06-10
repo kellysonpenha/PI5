@@ -107,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
       $stmt->execute();
 
+      $stmt = $pdo_conn->prepare("INSERT INTO UsuarioRestaurante (nome, endereco, status, Login_id) VALUES (:nome, :endereco, 1, LAST_INSERT_ID())");
       $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
       $stmt->bindParam(':endereco', $endereco, PDO::PARAM_STR);
       $stmt->execute();
