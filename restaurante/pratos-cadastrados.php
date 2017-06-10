@@ -1,14 +1,14 @@
 <?php
   require_once "../seguranca.php";
 
-  //protegeRestaurante();
+  protegeRestaurante();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Perfil | Sistema de avaliação de restaurantes</title>
+  <title>Pratos cadastrados | Sistema de avaliação de restaurantes</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -140,56 +140,42 @@
               <h3 class="box-title">Dados do restaurante</h3>
             </div>
             <div class="box-body">
-              <form>
-                <div class="col-md-12">
-                  <h4>Sobre</h4>
+              <div class="prato">
+                <div class="col-md-4">
+                  <img src="../dist/img/pratos/pao-de-queijo.jpg" class="img-responsive">
                 </div>
-                <div class="form-group col-md-6">
-                  <label>Nome do restaurante</label>
-                  <input type="text" name="" class="form-control" placeholder="Digite seu nome restaurante" required="">
+                <div class="col-md-8">
+                  <h3 class="titulo-cardapio">Pão de queijo tradicional</h3>
+                  <div class="rateYo"></div>
+                  <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+                  <h5 class="preco">R$ 4,50</h5>
+                  
                 </div>
-                <div class="form-group col-md-6">
-                  <label>Local</label>
-                  <input type="text" name="" class="form-control" placeholder="Selecione o local" required="">
+              </div>
+              <div class="clearfix"></div>
+              <hr>
+              <div class="prato">
+                <div class="col-md-4">
+                  <img src="../dist/img/pratos/pao-de-queijo-goiabada.jpg" class="img-responsive">
                 </div>
-                <div class="form-group col-md-12">
-                  <button type="submit" class="btn btn-primary btn-flat ">Atualizar <i class="fa fa-fw fa-save"></i></button>
+                <div class="col-md-8">
+                  <h3>Pão de queijo com recheado</h3>
+                  <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+                  <p>R$ 6,50</p>
                 </div>
-              </form>
-                <div class="clearfix"></div>
-                <hr>
-              <form>
-                <div class="col-md-12">
-                  <h4>Dados de acesso</h4>
+              </div>
+              <div class="clearfix"></div>
+              <hr>
+              <div class="prato">
+                <div class="col-md-4">
+                  <img src="../dist/img/pratos/beirute.png" class="img-responsive">
                 </div>
-                <div class="form-group col-md-6">
-                  <label>E-mail atual</label>
-                  <input type="email" name="" class="form-control" placeholder="Digite seu e-mail" required="">
+                <div class="col-md-8">
+                  <h3>Beirute de rosbife</h3>
+                  <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+                  <p>R$ 19,00</p>
                 </div>
-                <div class="form-group col-md-6">
-                  <label>Novo e-mail</label>
-                  <input type="email" name="" class="form-control" placeholder="Digite seu e-mail" required="">
-                </div>
-                <div class="form-group col-md-12">
-                  <button type="submit" class="btn btn-primary btn-flat ">Atualizar <i class="fa fa-fw fa-save"></i></button>
-                </div>
-              </form>
-              <form>
-                <div class="col-md-12">
-                  <p>Deseja atualizar sua senha de acesso?</p>
-                </div>
-                <div class="form-group col-md-6">
-                  <label>Senha atual</label>
-                  <input type="password" name="" class="form-control" placeholder="Digite seu senha" required="">
-                </div>
-                <div class="form-group col-md-6">
-                  <label>Nova senha</label>
-                  <input type="password" name="" class="form-control" placeholder="Digite seu senha" required="">
-                </div>
-                <div class="form-group col-md-12">
-                  <button type="submit" class="btn btn-primary btn-flat ">Atualizar <i class="fa fa-fw fa-save"></i></button>
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

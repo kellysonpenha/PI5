@@ -28,7 +28,7 @@
 </head>
 <body class="hold-transition login-page">
 <?php
-require_once "sessao.php"
+//require_once "sessao.php"
 ?>
 <div class="login-box">
   
@@ -82,22 +82,13 @@ require_once "sessao.php"
     });
   });
   
-  
-
-$(function () {
-$('input').iCheck({
-  checkboxClass: 'icheckbox_square-blue',
-  radioClass: 'iradio_square-blue',
-  increaseArea: '20%' // optional
-});
-}); 
-  
 var elemEnviar = document.getElementById("enviar");
 elemEnviar.onclick = function(){
 	var url="returnLogin.php";
 	var request = new XMLHttpRequest();	
 	request.onload = function(){	
-		if(this.status == 200){													
+		if(this.status == 200){		
+      alert (this.response);											
 				this.response == "false" ? document.getElementById("erro").style="block" : $("form").prepend("<div class=\"alert alert-danger alert-dismissible\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button><h4><i class=\"icon fa fa-warning\"></i> Atenção!</h4> Usuário ou senha inválidos.</div>");			
 			}
 		}
@@ -105,11 +96,8 @@ elemEnviar.onclick = function(){
 	request.open("POST", url);
 	request.withCredentials = true;
 	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	request.send("login=" + document.getElementById("login").value + "&senha=" + document.getElementById("senha").value); 	
-}
-
-  
-  
+	request.send("login=" + document.getElementById("login").value + "&senha=" + document.getElementById("senha").value);
+} 
 </script>
 </body>
 </html>

@@ -2,8 +2,8 @@
 	require_once "../db.php";
 	session_start();
 	function protegeRestaurante() {
-		if (!isset($_SESSION['idRestaurante'])) {
-			unset($_SESSION['idRestaurante']);
+		if (!isset($_SESSION['logasdfdo'])) {
+			unset($_SESSION['logasdfdo']);
 
 			if (isset($_SESSION['idAluno'])) {
 	    		header("Location: ../index.php");

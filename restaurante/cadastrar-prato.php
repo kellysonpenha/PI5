@@ -1,7 +1,7 @@
 <?php
   require_once "../seguranca.php";
 
-  //protegeRestaurante();
+  protegeRestaurante();
 ?>
 <!DOCTYPE html>
 <html>

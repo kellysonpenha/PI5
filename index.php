@@ -2,12 +2,6 @@
 define("ROW_PER_PAGE",4);
 require_once('class/Connection.class.php');
 ?>
-
-
-
-
-
-
 <html>
 <head>
   <meta charset="utf-8">
@@ -86,9 +80,9 @@ require_once('class/Connection.class.php');
 <div class="wrapper">
   <header class="main-header">
     <div class="menu-home container">
-      <a href="pages/examples/register.php" class="btn btn-primary btn-flat">Crie sua conta <i class="fa fa-user-plus"></i></a>
+      <a href="register.php" class="btn btn-primary btn-flat">Crie sua conta <i class="fa fa-user-plus"></i></a>
       <a href="pages/examples/login.php" class="btn btn-primary btn-flat">Faça login <i class="fa fa-sign-in"></i></a>
-      <a href="pages/examples/login-restaurante.php" class="btn btn-primary btn-flat">Área do restaurante <i class="fa fa-cutlery"></i></a>
+      <a href="login-restaurante.php" class="btn btn-primary btn-flat">Área do restaurante <i class="fa fa-cutlery"></i></a>
     </div>
   </header>
   

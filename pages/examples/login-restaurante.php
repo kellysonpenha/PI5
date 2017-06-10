@@ -36,13 +36,13 @@
     </div>
     <p class="login-box-msg">Olá, seja bem vindo(a) a área do restaurante</p>
 
-    <form action="../../index.php" method="post">
+    <form method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control input-login" placeholder="Email">
+        <input type="email" class="form-control input-login" placeholder="Email" name="email" required="">
         <span class="fa fa-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control input-login" placeholder="Senha">
+        <input type="password" class="form-control input-login" placeholder="Senha" name="senha" required="">
         <span class="fa fa-lock form-control-feedback"></span>
       </div>
       <div class="form-group">
@@ -76,6 +76,22 @@
       increaseArea: '20%' // optional
     });
   });
+  
+  var elemEnviar = document.getElementById("enviar");
+  elemEnviar.onclick = function(){
+    var url="returnLogin.php";
+    var request = new XMLHttpRequest(); 
+    request.onload = function(){  
+      if(this.status == 200){                         
+          this.response == "false" ? document.getElementById("erro").style="block" : $("form").prepend("<div class=\"alert alert-danger alert-dismissible\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button><h4><i class=\"icon fa fa-warning\"></i> Atenção!</h4> Usuário ou senha inválidos.</div>");     
+        }
+      }
+      
+    request.open("POST", url);
+    request.withCredentials = true;
+    request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    request.send("login=" + document.getElementById("login").value + "&senha=" + document.getElementById("senha").value);   
+  } 
 </script>
 </body>
 </html>
