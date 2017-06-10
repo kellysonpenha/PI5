@@ -7,19 +7,19 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Select2 -->
-  <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
+  <link rel="stylesheet" href="plugins/select2/select2.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
+  <link rel="stylesheet" href="dist/css/AdminLTE.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="../../plugins/iCheck/square/blue.css">
+  <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
 
-  <link rel="stylesheet" href="../../dist/css/site.css">
+  <link rel="stylesheet" href="dist/css/site.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,7 +33,7 @@
 
   <div class="register-box-body">
     <div class="register-logo">
-      <a href="../../index.php"><img src="../../dist/img/logo-com-texto-branco.png"></a>
+      <a href="index.php"><img src="dist/img/logo-com-texto-branco.png"></a>
     </div>
     <p class="login-box-msg">Cadastro de restaurante</p>
 
@@ -70,13 +70,13 @@
 <!-- /.register-box -->
 
 <!-- jQuery 2.2.3 -->
-<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
 <!-- Select2 -->
-<script src="../../plugins/select2/select2.full.min.js"></script>
+<script src="plugins/select2/select2.full.min.js"></script>
 <!-- iCheck -->
-<script src="../../plugins/iCheck/icheck.min.js"></script>
+<script src="plugins/iCheck/icheck.min.js"></script>
 <script>
   $(function () {
     $(".select2").select2();
@@ -92,21 +92,26 @@
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
+  require_once "db.php";
   try {   
-    require_once "../../db.php";
+    
     $nome = $_POST["nome"];
     $email = $_POST["email"];
-    $senha = $_POST["senha"];
+    $senha = password_hash($_POST["senha"], PASSWORD_BCRYPT);
     $endereco = $_POST["endereco"];
 
-    $pdo_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-    $pdo_conn = $pdo_conn->prepare("INSERT INTO UsuarioRestaurante (email, nome, senha, status) VALUES (:email, :nome, :senha, 1)");
-    $pdo_conn->bindParam(':email', $email, PDO::PARAM_STR);
-    $pdo_conn->bindParam(':nome', $nome, PDO::PARAM_STR);
-    $pdo_conn->bindParam(':senha', $senha, PDO::PARAM_STR);
-    //$pdo_conn->bindParam(':endereco', $endereco, PDO::PARAM_STR);
-    $pdo_conn->execute();
+    $pdo_conn->beginTransaction();
+        //
+      $stmt = $pdo_conn->prepare("INSERT INTO LoginUsuario (email, senha, TipoUsuario_id) VALUES (:email, md5(:senha), 2)");
+      $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+      $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
+      $stmt->execute();
+
+      $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
+      $stmt->bindParam(':endereco', $endereco, PDO::PARAM_STR);
+      $stmt->execute();
+
+    $pdo_conn->commit();
                
     echo '<script>$("form").prepend("<div class=\"alert alert-success alert-dismissible\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button><h4><i class=\"icon fa fa-check\"></i> Parabéns!</h4> Usuário cadastrado com sucesso!</div>");</script>';
   } 
