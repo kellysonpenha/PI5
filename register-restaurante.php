@@ -62,7 +62,7 @@
         <button type="submit" class="btn btn-primary btn-block btn-flat">Cadastrar <i class="fa fa-fw fa-save"></i></button>
       </div>
       <hr>
-      <p class="text-center">Já possui um conta? <a href="login-restaurante.php">Faça login</a></p>
+      <p class="text-center">Já possui um conta? <a href="login.php">Faça login</a></p>
     </form>
   </div>
   <!-- /.form-box -->
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $pdo_conn->beginTransaction();
         //
-      $stmt = $pdo_conn->prepare("INSERT INTO LoginUsuario (email, senha, TipoUsuario_id) VALUES (:email, md5(:senha), 2)");
+      $stmt = $pdo_conn->prepare("INSERT INTO LoginUsuario (email, senha, TipoUsuario_id) VALUES (:email, :senha, 3)");
       $stmt->bindParam(':email', $email, PDO::PARAM_STR);
       $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
       $stmt->execute();

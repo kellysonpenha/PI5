@@ -81,8 +81,8 @@ require_once('class/Connection.class.php');
   <header class="main-header">
     <div class="menu-home container">
       <a href="register.php" class="btn btn-primary btn-flat">Crie sua conta <i class="fa fa-user-plus"></i></a>
-      <a href="pages/examples/login.php" class="btn btn-primary btn-flat">Faça login <i class="fa fa-sign-in"></i></a>
-      <a href="login-restaurante.php" class="btn btn-primary btn-flat">Área do restaurante <i class="fa fa-cutlery"></i></a>
+      <a href="login.php" class="btn btn-primary btn-flat">Faça login <i class="fa fa-sign-in"></i></a>
+      <a href="register-restaurante.php" class="btn btn-primary btn-flat">Restaurante <i class="fa fa-cutlery"></i></a>
     </div>
   </header>
   
