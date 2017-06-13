@@ -133,3 +133,6 @@
 .select2-container--default .select2-selection--single .select2-selection__rendered{
 	color: #999999;
 }
+.user-header-af p{
+	color: #FF5722!important;
+}

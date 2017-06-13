@@ -93,8 +93,29 @@ require_once('class/Connection.class.php');
       <p>Que restaurante você quer conhecer?</p>              
     </div>
 	
+	<form style="max-width: 500px; margin: auto;">
+		<div class="form-group">
+			<div class="input-group">
+				<select name="restaurante" class="form-control select2"  data-placeholder="Escolha um restaurante" >
+					<option></option>
+					<?php
+				        $stmt2 = $pdo_conn->prepare("SELECT id, nome  FROM UsuarioRestaurante;");
+				        $stmt2->execute();
+				        $restaurantes = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+				        
+				        foreach ($restaurantes as $restaurante) {
+				          echo "<option value=\"".$restaurante['id']."\">".$restaurante['nome']."</option>";
+				        }
+				      ?>
+				</select>
+				<span class="input-group-btn">
+					<button class="btn btn-primary btn-flat" type="submit">Buscar <i class="fa fa-search"></i></button>
+				</span>
+			</div>
+		</div>
+	</form>
           
-	<form name='frmSearch' action='' method='post'>	
+	<!--<form name='frmSearch' action='' method='post'>	
 		<div class="col-md-offset-4 col-md-4">
 			<input type='text'class="form-control" name='search[keyword]' value="<?php echo $search_keyword; ?>" id='keyword' maxlength='25' style="inline-block">
 		</div>
@@ -103,6 +124,7 @@ require_once('class/Connection.class.php');
 				<button class="btn btn-primary btn-flat" type="submit">Buscar <i class="fa fa-search"></i></button>
 			</span>
 		</div>
+	-->
 	<br />
     <hr>	
     <h2>Top 5 melhores restaurantes</h2>
@@ -146,7 +168,7 @@ require_once('class/Connection.class.php');
 	
 	<div class="box box-widget widget-user widget-aviliacao">
       <div class="widget-user-header bg-default">
-        <h3 class="widget-user-username"><?php echo  "<a href='avaliar-restaurante.php?id={$row['id']}'>{$row['Nome']}</a>";?></h3>
+        <h3 class="widget-user-username"><?php echo  "<a href='avaliar-restaurante.php?id={$row['id_Restaurante']}'>{$row['Nome']}</a>";?></h3>
         <h5 class="widget-user-desc" style="display: inline;">Nota geral:</h5>
 		<div class="geral" style="display: inline-block;"></div>
       </div>
@@ -232,7 +254,9 @@ require_once('class/Connection.class.php');
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
 
-
+<script type="text/javascript">
+	$('.select2').select2();
+</script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the

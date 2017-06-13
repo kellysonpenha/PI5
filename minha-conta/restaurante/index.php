@@ -1,10 +1,9 @@
 <?php
   require_once "../../seguranca.php";
+  echo $_SESSION['tipo'];
+  if(protegeRestaurante())
 
-  protegeRestaurante();
-
-    require_once("../../db.php");
-
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_FILES['foto'])) {
         
         // Pasta onde o arquivo vai ser salvo
@@ -71,12 +70,7 @@
           
         }
     }
-
-  $stmt2 = $pdo_conn->prepare("SELECT * FROM UsuarioRestaurante WHERE Login_id = :id;");
-  $stmt2->bindParam(":id", $_SESSION['id']);
-  $stmt2->execute();
-  $dadosUsuarios = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-  $dadosUsuario = $dadosUsuarios[0];
+  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -101,109 +95,13 @@
 <div class="wrapper">
 
   <!-- Main Header -->
-  <header class="main-header">
-
-    <!-- Logo -->
-    <a href="index.php" class="logo">
-      <img src="../../dist/img/logo-extenso-branco.png" class="logo-painel">
-    </a>
-
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <?php
-              if ($dadosUsuario['foto'] == NULL) {
-                $foto = "perfil.png";
-              } else{
-                $foto = $dadosUsuario['foto'];
-              }
-            ?>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="../../images/restaurante/logo/<?php echo $foto; ?>" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Olá, <?php echo $_SESSION['nome']; ?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-              
-                <img src="../../images/restaurante/logo/<?php echo $foto; ?>" class="img-circle" alt="User Image">
-
-
-                <p>
-                  <?php echo $_SESSION['nome']; ?>
-                  <small><?php echo $dadosUsuario['endereco'];?></small>
-                </p>
-              </li>
-              
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Perfil</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sair</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+  <?php 
+    require_once("header.php");
+  ?>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="../../images/restaurante/logo/<?php echo $foto; ?>" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <!-- Status -->
-          <p><i class="fa fa-star-half-full text-success"></i> 4.5</p>
-        </div>
-      </div>
-
-      <!-- /.search form -->
-
-      <!-- Sidebar Menu -->
-      <ul class="sidebar-menu">
-        <li class="header">Menu</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="#"><i class="fa fa-user"></i> <span>Meu perfil</span></a></li>
-        <li><a href="#"><i class="fa fa-star"></i> <span>Avaliações</span></a></li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-file-text-o"></i> <span>Cardápio</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#">Pratos cadastrados</a></li>
-            <li><a href="cadastrar-prato.php">Cadastrar novo prato</a></li>
-            <li><a href="#">Vizualizar avalições</a></li>
-          </ul>
-        </li>
-      </ul>
-      <!-- /.sidebar-menu -->
-    </section>
-    <!-- /.sidebar -->
-  </aside>
+  <?php 
+    require_once("menu.php");
+  ?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

@@ -1,5 +1,5 @@
 <?php
-  require_once "../seguranca.php";
+  require_once "../../seguranca.php";
 
   protegeRestaurante();
 ?>
@@ -12,121 +12,34 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/AdminLTE.css">
-  <link rel="stylesheet" href="../dist/css/skins/skin-site.css">
-  <link rel="stylesheet" href="../dist/css/site.css">
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
+  <link rel="stylesheet" href="../../dist/css/skins/skin-site.css">
+  <link rel="stylesheet" href="../../dist/css/site.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->
-  <header class="main-header">
-
-    <!-- Logo -->
-    <a href="index.php" class="logo">
-      <img src="../dist/img/logo-extenso-branco.png" class="logo-painel">
-    </a>
-
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Olá, Restaurante</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
-                <p>
-                  Restaurante
-                  <small>Praça P2</small>
-                </p>
-              </li>
-              
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Perfil</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sair</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+  <?php 
+    require_once("header.php");
+  ?>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <!-- Status -->
-          <p><i class="fa fa-star-half-full text-success"></i> 4.5</p>
-        </div>
-      </div>
-
-      <!-- /.search form -->
-
-      <!-- Sidebar Menu -->
-      <ul class="sidebar-menu">
-        <li class="header">Menu</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="#"><i class="fa fa-user"></i> <span>Meu perfil</span></a></li>
-        <li><a href="#"><i class="fa fa-star"></i> <span>Avaliações</span></a></li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-file-text-o"></i> <span>Cardápio</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#">Pratos cadastrados</a></li>
-            <li><a href="#">Cadastrar novo prato</a></li>
-            <li><a href="#">Vizualizar avalições</a></li>
-          </ul>
-        </li>
-      </ul>
-      <!-- /.sidebar-menu -->
-    </section>
-    <!-- /.sidebar -->
-  </aside>
+  <?php 
+    require_once("menu.php");
+  ?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Perfil
+        Pratos cadastrados
         <small></small>
       </h1>
     </section>
@@ -134,79 +47,43 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-6">
-          <div class="box box-dark">
-            <div class="box-header with-border">
-              <h3 class="box-title">Dados do restaurante</h3>
+      <?php
+        $stmt2 = $pdo_conn->prepare("select nome, foto1, descricao, valor FROM Prato INNER JOIN Cardapio ON Cardapio.Prato_id = Prato.id WHERE Cardapio.UsuarioRestaurante_id = :id;");
+        $stmt2->bindParam(":id", $_SESSION['id']);
+        $stmt2->execute();
+        $pratos = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($pratos as $prato) {
+          if ($prato['foto1'] == NULL) {
+            $pratoImg = "prato.png";
+          } else{
+            $pratoImg = $prato['foto1'];
+          }
+          echo "<div class=\"col-md-6\">
+          <div class=\"box box-dark\">
+            <div class=\"box-header with-border\">
+              <h3 class=\"box-title\">Destalhes do prato</h3>
             </div>
-            <div class="box-body">
-              <div class="prato">
-                <div class="col-md-4">
-                  <img src="../dist/img/pratos/pao-de-queijo.jpg" class="img-responsive">
+            <div class=\"box-body\">
+              <div class=\"prato\">
+                <div class=\"col-md-4\">
+                  <img src=\"../../images/restaurante/prato/".$pratoImg."\" class=\"img-responsive\">
                 </div>
-                <div class="col-md-8">
-                  <h3 class="titulo-cardapio">Pão de queijo tradicional</h3>
-                  <div class="rateYo"></div>
-                  <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-                  <h5 class="preco">R$ 4,50</h5>
-                  
-                </div>
-              </div>
-              <div class="clearfix"></div>
-              <hr>
-              <div class="prato">
-                <div class="col-md-4">
-                  <img src="../dist/img/pratos/pao-de-queijo-goiabada.jpg" class="img-responsive">
-                </div>
-                <div class="col-md-8">
-                  <h3>Pão de queijo com recheado</h3>
-                  <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-                  <p>R$ 6,50</p>
-                </div>
-              </div>
-              <div class="clearfix"></div>
-              <hr>
-              <div class="prato">
-                <div class="col-md-4">
-                  <img src="../dist/img/pratos/beirute.png" class="img-responsive">
-                </div>
-                <div class="col-md-8">
-                  <h3>Beirute de rosbife</h3>
-                  <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-                  <p>R$ 19,00</p>
+                <div class=\"col-md-8\">
+                  <h3 class=\"titulo-cardapio\">".$prato['nome']."</h3>
+                  <div class=\"rateYo\"></div>
+                  <p>".$prato['descricao']."</p>
+                  <h5 class=\"preco\">R$ ".$prato['valor']."</h5>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div class="box box-dark">
-            <div class="box-header with-border">
-              <h3 class="box-title">Foto de perfil</h3>
-            </div>
-            <div class="box-body">
-              <form>
-                <div class="col-md-4">
-                  <img src="../dist/img/cooker.png" class="img-thumbnail img-circle form-img-perfil">
-                </div>
-                <div class="col-md-8">
-                  <p>Adicione o logo do seu restaurante para que o mesmo possa ser identificado com mais facilidade</p>
-                  <div class="form-group">
-                    <input type="file" id="exampleInputFile">
-                    <p class="help-block">Faça upload da sua foto de Perfil</p>
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-flat ">Salvar <i class="fa fa-fw fa-save"></i></button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
+        </div>";
+        }
+      ?>
+        
 
+      </div>
       
     </section>
     <!-- /.content -->
@@ -232,11 +109,11 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 2.2.3 -->
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../dist/js/app.min.js"></script>
+<script src="../../dist/js/app.min.js"></script>
 <script type="text/javascript">
   $(function () {
     $('[data-toggle="popover"]').popover()
