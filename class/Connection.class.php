@@ -1,13 +1,19 @@
 <?php
 	class Connection extends pdo{
 		
-		private $host="localhost";
-		private $user="root";
-		private $password="";
-		private $dbname="test";			
+		
+	/*$database_username = 'dev_back';
+	$database_password = 'Senac2017';
+	$pdo_conn = new PDO( 'mysql:host=pisoavalia.cvoenmmd48mt.us-east-2.rds.amazonaws.com;dbname=PI_oficial', $database_username, $database_password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));*/
+		
+		
+		private $host="pisoavalia.cvoenmmd48mt.us-east-2.rds.amazonaws.com";
+		private $user="dev_back";
+		private $password="Senac2017";
+		private $dbname="PI_oficial";	
 		
 		private function conectionDB(){
-			$conn = parent::__construct("mysql:host=$this->host;dbname=$this->dbname","$this->user", "$this->password", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+			$conn = parent::__construct("mysql:host=$this->host;dbname=$this->dbname","$this->user", "$this->password");
 			return $conn;			
 		}
 		
@@ -33,33 +39,15 @@
 		}
 		
 		
-		/*private function setAvaliacaoRestaurante($tipo, $nome, $raiting){
-			
+		//$conexao=>setAvaliacaoRestaurante($tipo, $raiting, $tipo, $idUsuario);
 
-			if($nome == "limpeza"){
-				$conn = $this->conectionDB();
-				$raiting;
-				$tipo;
-			
-			}else if($nome == "tempodeespera"){
-				$raiting;
-				$tipo;
-				
-			}else if($nome =="valor"){
-				$raiting;
-				$tipo;
-				
-			}else if($nome =="sabor"){
-				$raiting;
-				$tipo;
-			
-			}else if($nome =="qualidadeatendimento"){
-				$raiting;
-				$tipo;			
-			}			
-			
-		}
-		*/
+		//$tipo = limpeza, tempo, e etc.
+		
+		
+		//$conexao=>setAvaliacaoRestaurante($tipo, $raiting, $tipo, $idUsuario);
+		
+		
+		
 		
 		private function conexao(){
 			return $this->conectionDB();		

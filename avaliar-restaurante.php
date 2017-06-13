@@ -1,6 +1,21 @@
 <?php
 
 require_once('class/Connection.class.php');
+$idRestaurante = $_GET['idRestaurante'];
+$idUsuario = $_GET['idUsuario'];
+$pdo_conn = new Connection();	
+$pagination_statement = $pdo_conn->prepare('SELECT * FROM AvaliacaoUsuario where id_Restaurante = :id');	
+$pagination_statement->bindParam(':id', $id_usuario, PDO::PARAM_INT);
+$pagination_statement->execute();
+
+/*
+if(empty($id_usuario)){
+	echo "Está vazio";
+}*/
+
+
+
+
 ?>
 
 
@@ -38,6 +53,9 @@ require_once('class/Connection.class.php');
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
+	
+	
+	
       <!-- Navbar Right Menu -->
       <div>
         <ul class="nav navbar-nav">
@@ -102,24 +120,24 @@ require_once('class/Connection.class.php');
   </header>
   
   <?php	
-	$pdo_conn = new Connection();	
-	$idURL = $_GET['id'];
-	$pagination_statement = $pdo_conn->prepare('SELECT * FROM estabecimento where id = :id');	
+	$pdo_conn = new Connection();		
+	$pagination_statement = $pdo_conn->prepare('SELECT * FROM AvaliacaoUsuario where id_Restaurante = :id');	
 	$pagination_statement->bindParam(':id', $idURL, PDO::PARAM_INT);
 	$pagination_statement->execute();	
 ?>
   
   <?php
 	if(!empty($pagination_statement)) { 
-		foreach($pagination_statement as $row) {
+		foreach($pagination_statement as $row) {			
+			
 			
 	?>
   
   
   <div class="box box-widget widget-user widget-perfil-restaurante">
     <div class="widget-user-header bg-default">
-      <h2 class="widget-user-username"><?php print_r($row["nome"]); ?></h2>      
-      <div class="col-md-12"><div class="limpeza " style="margin: 0 auto;"></div></div>
+      <h2 class="widget-user-username"><?php print_r($row["nome_restaurante"]); ?></h2>      
+      <div class="col-md-12"><div class="limpeza " style="margin: 0 auto;"></div><?php print_r($row["Limpeza"]); ?></div>
      
 	  
     </div>
@@ -298,38 +316,36 @@ $(function () {
 $("#limpeza, #tempodeespera, #valor, #sabor, #qualidadeatendimento").rateYo().on("rateyo.set", function (e, data) {
     if(this.id == "limpeza"){
 		console.log("sou zica pq é limpeza");		
-		enviarRaiting(data, "limpeza");
-		
+		enviarRaiting(data, this.id, <?php echo $idRestaurante?>, <?php echo $id_usuario?>);		
 	}else if(this.id == "tempodeespera"){
 		console.log("sou zica pq é tempo de espera");
-		enviarRaiting(data, "tempo de espera");
+		enviarRaiting(data, this.id, <?php echo $idRestaurante?>, <?php echo $id_usuario?>);
 	}else if(this.id == "valor"){
 		console.log("sou zica pq é valor");
-		enviarRaiting(data, "valor");
+		enviarRaiting(data, this.id, <?php echo $idRestaurante?>, <?php echo $id_usuario?>);
 	}else if(this.id == "sabor"){
 		console.log("sou zica pq é sabor");
-		enviarRaiting(data, "sabor");
+		enviarRaiting(data, this.id, <?php echo $idRestaurante?>, <?php echo $id_usuario?>);
 	}else if(this.id == "qualidadeatendimento"){
 		console.log("sou zica pq é qualidadeatendimento");
-		enviarRaiting(data, "qualidade de atendimento");
+		enviarRaiting(data, this.id, <?php echo $idRestaurante?>, <?php echo $id_usuario?>);
 	}
 	});
 });
 
 
-function enviarRaiting(estrela, tipo){
+function enviarRaiting(estrela, tipo, idRestaurante, idUsuario){
 	var url="class/avaliacao.php";
 	var request = new XMLHttpRequest();	
 	request.onload = function(){	
 		if(this.status == 200){													
-				console.log(this.response + "fsd");
+				console.log(this.response);
 			}
-		}
-		
+		}		
 		request.open("POST", url);
 		request.withCredentials = true;
 		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-		request.send("id=" + <?php echo $idURL ?> + "&tipo=" + tipo + "&raiting=" + estrela.rating); 	
+		request.send("idRestaurante=" + <?php echo $idRestaurante ?> + "&tipo=" + tipo + "&raiting=" + estrela.rating + "&idUsuario=" + <?php echo $idUsuario?>); 	
 }
 
 
@@ -340,10 +356,10 @@ function enviarRaiting(estrela, tipo){
   
   
 
-  $(function () {
+ /* $(function () {
  
     $("#limpeza").rateYo({
-      rating: <?php print_r($row["nota"]); ?>,
+      rating: <?php print_r($row["Limpeza"]); ?>,
       starWidth: "40px",
 	  fullStar: true
     });
@@ -372,7 +388,7 @@ function enviarRaiting(estrela, tipo){
 	  fullStar: true
     });
    
-  });
+  });*/
 </script>
 </body>
 </html>

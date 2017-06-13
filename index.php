@@ -2,6 +2,12 @@
 define("ROW_PER_PAGE",4);
 require_once('class/Connection.class.php');
 ?>
+
+
+
+
+
+
 <html>
 <head>
   <meta charset="utf-8">
@@ -37,7 +43,7 @@ require_once('class/Connection.class.php');
 	//$sql = 'SELECT * FROM estabecimento WHERE post_title LIKE :keyword OR description LIKE :keyword OR post_at LIKE :keyword ORDER BY id DESC ';	
 	
 	
-	$sql = 'SELECT * FROM estabecimento WHERE nome LIKE :keyword OR nome ORDER BY nome DESC ';
+	$sql = 'SELECT * FROM estabelecimento2 WHERE nome LIKE :keyword OR nome ORDER BY nome DESC ';
 	
 	/* Pagination Code starts */
 	$per_page_html = '';
@@ -80,9 +86,9 @@ require_once('class/Connection.class.php');
 <div class="wrapper">
   <header class="main-header">
     <div class="menu-home container">
-      <a href="register.php" class="btn btn-primary btn-flat">Crie sua conta <i class="fa fa-user-plus"></i></a>
+      <a href="pages/examples/register.html" class="btn btn-primary btn-flat">Crie sua conta <i class="fa fa-user-plus"></i></a>
       <a href="pages/examples/login.php" class="btn btn-primary btn-flat">Faça login <i class="fa fa-sign-in"></i></a>
-      <a href="login-restaurante.php" class="btn btn-primary btn-flat">Área do restaurante <i class="fa fa-cutlery"></i></a>
+      <a href="pages/examples/login-restaurante.html" class="btn btn-primary btn-flat">Área do restaurante <i class="fa fa-cutlery"></i></a>
     </div>
   </header>
   
@@ -115,9 +121,24 @@ require_once('class/Connection.class.php');
 	if(!empty($result)) {	
 		foreach($result as $row) {
 	?>
+	<script>
+	
+	var preco = <?php echo $row['Preco'];?>;
+	var sabor = <?php echo $row['Sabor'];?>;
+	var notaGeral = <?php echo $row['Geral'];?>;
+	var atendimento = <?php echo $row['Tempo'];?>;
+	var limpeza = <?php echo $row['Limpeza'];?>;
+	
+	preco = preco > 5 ? 5: preco;
+	sabor = sabor > 5 ? 5: sabor;
+	notaGeral = notaGeral > 5 ? 5: notaGeral;
+	atendimento = atendimento > 5 ? 5: atendimento;
+	limpeza =  limpeza > 5 ? 5: limpeza;
+	</script>
+	
 	<div class="box box-widget widget-user widget-aviliacao">
       <div class="widget-user-header bg-default">
-        <h3 class="widget-user-username"><?php echo  "<a href='avaliar-restaurante.php?id={$row['id']}'>{$row['nome']}</a>";?></h3>
+        <h3 class="widget-user-username"><?php echo  "<a href='avaliar-restaurante.php?id={$row['idRestaurante']}'>{$row['Nome']}</a>";?></h3>
         <h5 class="widget-user-desc" style="display: inline;">Nota geral:</h5>
 		<div class="geral" style="display: inline-block;"></div>
       </div>
@@ -128,7 +149,7 @@ require_once('class/Connection.class.php');
         <div class="row">
           <div class="col-sm-4 border-right">
             <div class="description-block">
-              <h5 class="description-header">Preço</h5>
+              <h5 class="description-header">Preço</h5>			  
 			  <div class="preco " style="margin: 0 auto;"></div>
             </div>
           </div>
@@ -149,22 +170,22 @@ require_once('class/Connection.class.php');
     </div>
 	<script>
 		$(".atendimento").rateYo({
-			rating: <?php echo($row["sabor"]); ?>,
+			rating: atendimento,
 			starWidth: "20px",
 			readOnly: true
 		});
 		$(".sabor").rateYo({
-			rating: <?php echo($row["sabor"]); ?>,
+			rating: sabor,
 			starWidth: "20px",
 			readOnly: true
 		});
 		$(".preco").rateYo({
-			rating: <?php echo($row["preco"]); ?>,
+			rating: preco,
 			starWidth: "20px",
 			readOnly: true
 		});
 		$(".geral").rateYo({
-			rating: <?php echo($row["nota"]); ?>,
+			rating: notaGeral,
 			starWidth: "20px",
 			readOnly: true
 		});
@@ -202,29 +223,7 @@ require_once('class/Connection.class.php');
 
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
-<script>
-  $(function () {
-    $(".select2").select2();
 
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-  });
-  
-  $(".preco").rateYo({
-	rating: <?php echo($row["nota"]); ?>,
-    starWidth: "20px",
-	readOnly: true
-  });
-  $(".geral").rateYo({
-	rating: <?php echo($row["nota"]); ?>,
-	ratedFill: "#FFFFFF",
-    starWidth: "12px",
-	readOnly: true
-  });
-</script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
@@ -232,3 +231,4 @@ require_once('class/Connection.class.php');
      fixed layout. -->
 </body>
 </html>
+
