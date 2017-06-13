@@ -37,7 +37,7 @@ require_once('class/Connection.class.php');
 	//$sql = 'SELECT * FROM estabecimento WHERE post_title LIKE :keyword OR description LIKE :keyword OR post_at LIKE :keyword ORDER BY id DESC ';	
 	
 	
-	$sql = 'SELECT * FROM estabecimento WHERE nome LIKE :keyword OR nome ORDER BY nome DESC ';
+	$sql = 'SELECT * FROM estabelecimento2 WHERE Nome LIKE :keyword OR Nome ORDER BY Nome DESC ';
 	
 	/* Pagination Code starts */
 	$per_page_html = '';
@@ -114,10 +114,39 @@ require_once('class/Connection.class.php');
 	<?php
 	if(!empty($result)) {	
 		foreach($result as $row) {
+			
+			
 	?>
+	<script> 
+		var geral = <?php echo $row["Geral"] ?>;
+		var limpeza = <?php echo $row["Limpeza"] ?> ;
+		var sabor= <?php echo $row["Sabor"] ?>;
+		var preco = <?php echo $row["Preco"] ?>;
+		var tempo = <?php echo $row["Tempo"] ?>;
+		
+		if (geral > 5){
+			geral = 5			
+		}
+		if (limpeza > 5){
+			limpeza = 5			
+		}
+		if (sabor > 5){
+			sabor = 5			
+		}
+		if (preco > 5){
+			preco = 5			
+		}
+		if (tempo > 5){
+			tempo = 5			
+		}
+	
+	
+	</script>
+	
+	
 	<div class="box box-widget widget-user widget-aviliacao">
       <div class="widget-user-header bg-default">
-        <h3 class="widget-user-username"><?php echo  "<a href='avaliar-restaurante.php?id={$row['id']}'>{$row['nome']}</a>";?></h3>
+        <h3 class="widget-user-username"><?php echo  "<a href='avaliar-restaurante.php?id={$row['id']}'>{$row['Nome']}</a>";?></h3>
         <h5 class="widget-user-desc" style="display: inline;">Nota geral:</h5>
 		<div class="geral" style="display: inline-block;"></div>
       </div>
@@ -149,22 +178,22 @@ require_once('class/Connection.class.php');
     </div>
 	<script>
 		$(".atendimento").rateYo({
-			rating: <?php echo($row["sabor"]); ?>,
+			rating: tempo,
 			starWidth: "20px",
 			readOnly: true
 		});
 		$(".sabor").rateYo({
-			rating: <?php echo($row["sabor"]); ?>,
+			rating: sabor,
 			starWidth: "20px",
 			readOnly: true
 		});
 		$(".preco").rateYo({
-			rating: <?php echo($row["preco"]); ?>,
+			rating: preco,
 			starWidth: "20px",
 			readOnly: true
 		});
 		$(".geral").rateYo({
-			rating: <?php echo($row["nota"]); ?>,
+			rating: geral,
 			starWidth: "20px",
 			readOnly: true
 		});
@@ -202,29 +231,7 @@ require_once('class/Connection.class.php');
 
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
-<script>
-  $(function () {
-    $(".select2").select2();
 
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-  });
-  
-  $(".preco").rateYo({
-	rating: <?php echo($row["nota"]); ?>,
-    starWidth: "20px",
-	readOnly: true
-  });
-  $(".geral").rateYo({
-	rating: <?php echo($row["nota"]); ?>,
-	ratedFill: "#FFFFFF",
-    starWidth: "12px",
-	readOnly: true
-  });
-</script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
