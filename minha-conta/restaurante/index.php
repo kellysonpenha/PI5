@@ -1,7 +1,82 @@
 <?php
-  require_once "../seguranca.php";
+  require_once "../../seguranca.php";
 
-  //protegeRestaurante();
+  protegeRestaurante();
+
+    require_once("../../db.php");
+
+    if(isset($_FILES['foto'])) {
+        
+        // Pasta onde o arquivo vai ser salvo
+        $_UP['pasta'] = '../../images/restaurante/logo/';
+        // Tamanho máximo do arquivo (em Bytes)
+        $_UP['tamanho'] = 1024 * 1024 * 4; // 2Mb
+        // Array com as extensões permitidas
+        $_UP['extensoes'] = array('jpg', 'png', 'jpeg');
+        // Renomeia o arquivo? (Se true, o arquivo será salvo como .jpg e um nome único)
+        $_UP['renomeia'] = true;
+        // Array com os tipos de erros de upload do PHP
+        $_UP['erros'][0] = 'Não houve erro';
+        $_UP['erros'][1] = 'O arquivo no upload é maior do que o limite do PHP';
+        $_UP['erros'][2] = 'O arquivo ultrapassa o limite de tamanho especifiado no HTML';
+        $_UP['erros'][3] = 'O upload do arquivo foi feito parcialmente';
+        $_UP['erros'][4] = 'Não foi feito o upload do arquivo';
+        // Verifica se houve algum erro com o upload. Se sim, exibe a mensagem do erro
+        if ($_FILES['foto']['error'] != 0) {
+          die("Não foi possível fazer o upload");
+        }else{
+          $extensao = explode('.', $_FILES['foto']['name']);
+          $extensao = strtolower(end($extensao));
+          if (array_search($extensao, $_UP['extensoes']) === false) {
+            echo "<script>
+                $(\"#form-foto-perfil\").append(\"<p class='text-erro-perfil'>Erro! Por favor, envie arquivos com as seguintes extensões: jpg, png ou jpeg</p>\");
+              </script>";
+          }elseif ($_UP['tamanho'] < $_FILES['foto']['size']) {
+            echo "<script>
+                $(\".form-foto-perfil\").append(\"<p class='text-erro-perfil'>Erro! O arquivo enviado é muito grande, envie arquivos de até 4MB</p>\");
+              </script>";
+          }else{
+            // O arquivo passou em todas as verificações, hora de tentar movê-lo para a pasta
+            // Primeiro verifica se deve trocar o nome do arquivo
+            if ($_UP['renomeia'] == true) {
+              // Cria um nome baseado no UNIX TIMESTAMP atual e com extensão .jpg
+              $nome_final = md5(time()).$_SESSION['id'].'.jpg';
+            } else {
+              // Mantém o nome original do arquivo
+              $nome_final = $_FILES['arquivo']['name'];
+            }
+              
+            // Depois verifica se é possível mover o arquivo para a pasta escolhida
+            if (move_uploaded_file($_FILES['foto']['tmp_name'], $_UP['pasta'] . $nome_final)) {
+              // Upload efetuado com sucesso, exibe uma mensagem e um link para o arquivo
+
+              try {
+                $stmt5 = $pdo_conn->prepare("UPDATE UsuarioRestaurante SET foto = :foto  WHERE Login_id = :id;");  
+                $stmt5->bindParam(":id", $_SESSION['id']);
+                $stmt5->bindParam(":foto", $nome_final);
+                $stmt5->execute();
+
+              }catch (Exception $e){
+                echo "<script>
+                  $(\"#form-foto-perfil\").append(\"<p class='text-erro-perfil'>Erro! Ocorreu um erro inesperado, por favor tente novamente mais tarde</p>\");
+                </script>";
+              }
+            } else {
+              // Não foi possível fazer o upload, provavelmente a pasta está incorreta
+              echo "<script>
+                  $(\"#form-foto-perfil\").append(\"<p class='text-erro-perfil'>Erro! Não foi possível enviar o arquivo, tente novamente</p>\");
+                </script>";
+            }
+          }
+          
+        }
+    }
+
+  $stmt2 = $pdo_conn->prepare("SELECT * FROM UsuarioRestaurante WHERE Login_id = :id;");
+  $stmt2->bindParam(":id", $_SESSION['id']);
+  $stmt2->execute();
+  $dadosUsuarios = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+  $dadosUsuario = $dadosUsuarios[0];
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,15 +87,15 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/AdminLTE.css">
-  <link rel="stylesheet" href="../dist/css/skins/skin-site.css">
-  <link rel="stylesheet" href="../dist/css/site.css">
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
+  <link rel="stylesheet" href="../../dist/css/skins/skin-site.css">
+  <link rel="stylesheet" href="../../dist/css/site.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -30,7 +105,7 @@
 
     <!-- Logo -->
     <a href="index.php" class="logo">
-      <img src="../dist/img/logo-extenso-branco.png" class="logo-painel">
+      <img src="../../dist/img/logo-extenso-branco.png" class="logo-painel">
     </a>
 
     <!-- Header Navbar -->
@@ -45,20 +120,29 @@
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->
+            <?php
+              if ($dadosUsuario['foto'] == NULL) {
+                $foto = "perfil.png";
+              } else{
+                $foto = $dadosUsuario['foto'];
+              }
+            ?>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="../../images/restaurante/logo/<?php echo $foto; ?>" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Olá, Restaurante</span>
+              <span class="hidden-xs">Olá, <?php echo $_SESSION['nome']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              
+                <img src="../../images/restaurante/logo/<?php echo $foto; ?>" class="img-circle" alt="User Image">
+
 
                 <p>
-                  Restaurante
-                  <small>Praça P2</small>
+                  <?php echo $_SESSION['nome']; ?>
+                  <small><?php echo $dadosUsuario['endereco'];?></small>
                 </p>
               </li>
               
@@ -86,7 +170,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="../../images/restaurante/logo/<?php echo $foto; ?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>Alexander Pierce</p>
@@ -199,14 +283,14 @@
               <h3 class="box-title">Foto de perfil</h3>
             </div>
             <div class="box-body">
-              <form>
+              <form method="POST" action="" id="form-foto-perfil" enctype="multipart/form-data">
                 <div class="col-md-4">
-                  <img src="../dist/img/cooker.png" class="img-thumbnail img-circle form-img-perfil">
+                  <img src="../../images/restaurante/logo/<?php echo $foto; ?>" class="img-thumbnail img-circle form-img-perfil">
                 </div>
                 <div class="col-md-8">
                   <p>Adicione o logo do seu restaurante para que o mesmo possa ser identificado com mais facilidade</p>
                   <div class="form-group">
-                    <input type="file" id="exampleInputFile">
+                    <input type="file" id="exampleInputFile" name="foto">
                     <p class="help-block">Faça upload da sua foto de Perfil</p>
                   </div>
                   <div class="form-group">
@@ -246,20 +330,19 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 2.2.3 -->
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../dist/js/app.min.js"></script>
+<script src="../../dist/js/app.min.js"></script>
 <script type="text/javascript">
   $(function () {
     $('[data-toggle="popover"]').popover()
   });
 </script>
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
+<?php
+    
+?>
 </body>
 </html>
