@@ -1,5 +1,5 @@
 <?php
-  require_once "../seguranca.php";
+  require_once "../../seguranca.php";
 
   protegeRestaurante();
 ?>
@@ -8,19 +8,19 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Perfil | Sistema de avaliação de restaurantes</title>
+  <title>Cadastrar novo prato | Sistema de avaliação de restaurantes</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/AdminLTE.css">
-  <link rel="stylesheet" href="../dist/css/skins/skin-site.css">
-  <link rel="stylesheet" href="../dist/css/site.css">
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
+  <link rel="stylesheet" href="../../dist/css/skins/skin-site.css">
+  <link rel="stylesheet" href="../../dist/css/site.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -30,7 +30,7 @@
 
     <!-- Logo -->
     <a href="index.php" class="logo">
-      <img src="../dist/img/logo-extenso-branco.png" class="logo-painel">
+      <img src="../../dist/img/logo-extenso-branco.png" class="logo-painel">
     </a>
 
     <!-- Header Navbar -->
@@ -47,14 +47,14 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">Olá, Restaurante</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
                   Restaurante
@@ -86,7 +86,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>Alexander Pierce</p>
@@ -126,7 +126,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Perfil
+        Cadastrar novo prato
         <small></small>
       </h1>
     </section>
@@ -201,7 +201,7 @@
             <div class="box-body">
               <form>
                 <div class="col-md-4">
-                  <img src="../dist/img/cooker.png" class="img-thumbnail img-circle form-img-perfil">
+                  <img src="../../dist/img/cooker.png" class="img-thumbnail img-circle form-img-perfil">
                 </div>
                 <div class="col-md-8">
                   <p>Adicione o logo do seu restaurante para que o mesmo possa ser identificado com mais facilidade</p>
@@ -246,11 +246,11 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 2.2.3 -->
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../dist/js/app.min.js"></script>
+<script src="../../dist/js/app.min.js"></script>
 <script type="text/javascript">
   $(function () {
     $('[data-toggle="popover"]').popover()

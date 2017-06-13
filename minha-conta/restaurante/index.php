@@ -195,7 +195,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="#">Pratos cadastrados</a></li>
-            <li><a href="#">Cadastrar novo prato</a></li>
+            <li><a href="cadastrar-prato.php">Cadastrar novo prato</a></li>
             <li><a href="#">Vizualizar avalições</a></li>
           </ul>
         </li>
